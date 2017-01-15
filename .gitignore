@@ -1,0 +1,5 @@
+build/VC2015/Release
+build/VC2015/Debug
+build/VC2015/logic.VC.VC.opendb
+build/VC2015/logic.VC.db
+bin/
