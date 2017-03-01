@@ -10,7 +10,7 @@ std::string Equation::canonicalize(std::string text)
     for (auto &c : text) c = toupper(c);
 
     // Remove unsupported tokens.
-    text = std::regex_replace(text, std::regex("[^A-Z*+!()01]"), "");
+    text = std::regex_replace(text, std::regex("[^A-Z*+!\\^()01]"), "");
 
     // Add the implicit 'and' operators.
     for (unsigned i = 0; i < text.length() - 1; i++) {
@@ -104,6 +104,8 @@ int Equation::token_precedence(char token)
         return 2;
     case '+':
         return 1;
+    case '^':
+        return 1;
     default:
         return 0;
     }
@@ -111,7 +113,7 @@ int Equation::token_precedence(char token)
 
 bool Equation::is_operator(char token)
 {
-    return token == '*' || token == '+' || token == '!';
+    return token == '*' || token == '+' || token == '!' || token == '^';
 }
 
 bool Equation::is_variable(char token)
@@ -201,6 +203,15 @@ bool Equation::evaluate(std::map<char, bool> vars)
                 value = stack.top();
                 stack.pop();
                 value = value || stack.top();
+                stack.pop();
+                stack.push(value);
+                break;
+            case '^':
+                value = stack.top();
+                stack.pop();
+                bool a = value;
+                bool b = stack.top();
+                value = (a && !b) || (!a && b);
                 stack.pop();
                 stack.push(value);
                 break;

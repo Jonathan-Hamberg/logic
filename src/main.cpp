@@ -1,8 +1,6 @@
 #include "Equation.h"
 
 #include <iostream>
-#include <cstring>
-#include <cmath>
 
 void truth_table(std::vector<Equation> equations);
 
@@ -23,7 +21,7 @@ int main(int argc, char *argv[])
 
     // Canonicalize and extract variables.
     for (int i = 1; i < argc; i++) {
-        if (std::strncmp(argv[i], "-d", strlen("-d")) == 0) {
+        if (strncmp(argv[i], "-d", strlen("-d")) == 0) {
             cmd_debug = true;
         }
         else if (strncmp(argv[i], "-c", strlen("-c")) == 0) {
@@ -144,5 +142,5 @@ void truth_table(std::vector<Equation> equations){
             std::cout << "The equation(s) are not equal." << std::endl;
         }
     }
-}    
-
+    
+}   
